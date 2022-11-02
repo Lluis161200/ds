@@ -1,0 +1,13 @@
+Clase cliente que instancia serie catalagos.
+
+esta recibe le input
+
+clase resistencia, clase serie
+
+
+
+Serie"1..*" <--* SeriesCatalog: serie
+
+
+//aprender a no usar dos for para calcular
+//no hicistes a nueva clase con polimorfismos.

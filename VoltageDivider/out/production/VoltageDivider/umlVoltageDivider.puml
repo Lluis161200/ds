@@ -1,0 +1,77 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+class Resistor{
+    -ValueResistance: double
+    +toString()
+    +Resistance(valueResistance:double, serie: Series)
+    +getResistance():double
+}
+
+class Serie{
+    {static} -PowerRefactors:double[]
+    -name: string
+    -values: double[]
+    -presicion: double
+    +Series(name:String, presicion: double, values: double[])
+    -makeResistance()
+    +getName()
+    +getPresicion()
+    +getResistors():Resistors[]
+    +toString():String
+
+
+}
+
+class SeriesCatalog{
+    {static} -SeriesValues: double[][]
+    {static} -seriesName: String[]
+    {static} -seriesPrecisions: double[]
+    -series []:Serie
+    +SeriesCatalog()
+    +findSeriesByName(name: String): Series
+
+}
+
+class calculationVoltage{
+    calculation(VoltageDivision: double,
+    coincidance:double, s:Serie):VoltageDivider[]
+
+}
+class Cliente{
+
+    main()
+
+}
+
+class VoltageDivider{
+    - Resistor resistor1
+    - Resistor resistor2
+    - double coincidance
+    + VoltageDivider(Resistor r1, Resistor r2, double coincidance)
+    + toString()
+
+}
+
+package java.lang <<Folder>> {
+  interface Comparable{
+  +compare(o1:VoltageDivider, o2:VoltageDivider)
+}
+
+SeriesCatalog..upCliente:instantiates
+
+Serie"1..*" <--left*  SeriesCatalog: serie
+Resistor"1..*" <--left* "1"Serie: resistors
+VoltageDivider  -up-->"1"Resistor:r1
+VoltageDivider  -up-->"1"Resistor:r2
+VoltageDivider ..up|>Comparable
+
+
+
+
+
+
+
+@enduml

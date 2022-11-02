@@ -1,0 +1,9 @@
+Clase cliente que instancia serie catalagos.
+
+esta recibe le input
+
+clase resistencia, clase serie
+
+
+
+Serie"1..*" <--* SeriesCatalog: serie
