@@ -1,0 +1,139 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+class main{
+  main(String[] args):void
+
+  --
+
+}
+abstract Component{
+    {abstract}-initialDate: LocalDateTime
+    {abstract}-finalDate: LocalDateTime
+    {abstract}- tagName: String
+    {abstract}- duration: Duration
+
+
+     +Component(String tagName)
+     +Component(String tagName, Project parentProject)
+     +getTagName()
+     +getInitialDate()
+     +getDuration()
+     +getParentProject()
+     +getDateFinal()
+     +setDuration(Duration)
+     +setInitialDate(LocalDateTime)
+     +setDateFinal(LocalDateTime)
+     +setTagName(String)
+     +setParentProject(Project)
+     +setTagParentProject(String)
+     #{abstract} void updateFinalDate(LocalDateTime newFinalDate);
+     #{abstract} void updateDuration(Duration newDuration);
+     #{abstract} void acceptVisitor(Visitor v);
+
+}
+class Project{
+
+    -childrenProject:List<Component>
+
+    +Project(tag: String)
+    +Project(String tagName, Project parentProject)
+
+
+
+}
+
+class Task {
+
+    -intervalList:List<interval>
+    +Task(String tagName, Project parentProject)
+    +startTask()
+    +stopTask()
+    +addInterval(Time newTime)
+    +getIntervalList()
+    +setIntervalList(List<Interval> intervalList)
+
+}
+class interval{
+    -task: Task
+    -finalDate:LocalDateTime
+    -initialDate:LocalDateTime
+    -Duration:Duration
+    -time: Timer
+
+    +Interval(Time newTimer, Task task)
+    +getFinalDate()
+    +getInitialDate()
+    +getDuration()
+    +getTask():Task
+    +getTimer():Timer
+    +setFinalDate(dateFinal: LocalDateTime)
+    +setInitialDate(dateInitial: LocalDateTime)
+    +setDuration(duration: Duration)
+    +setTask(Task task)
+    +setTimer(Time timer)
+    #acceptVisitor(Visitor v)
+
+}
+
+package java.util{
+
+    interface Observer {
+
+        +{abstract}update(arg0: Observable, arg1: Object)
+
+    }
+
+    Abstract Observable
+    {
+       +{abstract}addObserver(ob: Observer)
+       +{abstract}deleteObserver(ob: Observer)
+       +{abstract}notifyObserver(arg0: Observable, arg1:Object)
+    }
+
+
+
+}
+
+class Time extends NotifyTask{
+    -seconds: int
+    -timer: Timer
+
+    +Time(int second)
+    +getSeconds()
+    +setSeconds(int seconds)
+    +setTimer(Timer)
+
+
+}
+interface Visitor{
+    +void visitTask(Task)
+    +void visitProject(Project)
+    +void visitInterval(Interval)
+}
+class Printer implements Visitor, Observer{
+    tree: Project
+    +Printer(Project root)
+    +setTree(Project root)
+}
+
+class NotifyTask extends TimerTask{
+    +run()
+}
+class TimerTask{
+}
+
+main"1.n"--> Component
+Project *--> "*"Component:children
+
+Component <|--down(Project,Task)
+
+Time--|> Observable
+interval ..|> Observer
+Observable*--left>"*"Observer:observers
+Task "1.n"*--> interval:interval
+
+
+@enduml
